@@ -36,23 +36,19 @@ def scrape_all():
 def mars_news(browser):
     url = "https://mars.nasa.gov/news/"
     browser.visit(url)
-
     #write your code here
     # Optional delay for loading the page
     browser.is_element_present_by_css("ul.item_list li.slide", wait_time=1)
-
     # HTML Object
     html = browser.html
-
     # Parse HTML with Beautiful Soup
     soup = bs(html, 'html.parser')
-
-
     # Retrieve the latest element that contains news title and news_paragraph
-    news_title = soup.find('div', class_='content_title').find('a').text
-    news_p = soup.find('div', class_='article_teaser_body').text
-
-    return news_title, news_p
+    new_soup = soup.select_one("ul.item_list li.slide")
+    news_title = new_soup.find('div', class_='content_title').find('a').text
+    news_paragraph = new_soup.find('div', class_='article_teaser_body').text
+    
+    return news_title, news_paragraph
 
 
 def featured_image(browser):
